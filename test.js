@@ -1,3 +1,10 @@
+/*
+ * @Author       : frank
+ * @Date         : 2022-02-28 14:03:56
+ * @LastEditTime : 2022-02-28 14:28:35
+ * @LastEditors  : frank
+ * @Description  : In User Settings Edit
+ */
 const myPromise = require('./myPromise')
 
 // const promise1 = myPromise.resolve(123);
@@ -42,8 +49,24 @@ const myPromise = require('./myPromise')
 // });
 
 
-myPromise.reject(new Error('fail')).then(function () {
-  // not called
-}, function (error) {
-  console.error(error); // Error: fail
-});
+// myPromise.reject(new Error('fail')).then(function () {
+//   // not called
+// }, function (error) {
+//   console.error(error); // Error: fail
+// });
+
+
+// var p1 = new myPromise(function (resolve, reject) {
+//   resolve('Success');
+// });
+
+// p1.then(function (value) {
+//   console.log(value); // "Success!"
+//   throw 'oh, no!';
+// }).catch(function (e) {
+//   console.log(e); // "oh, no!"
+// }).then(function () {
+//   console.log('after a catch the chain is restored');
+// }, function () {
+//   console.log('Not fired due to the catch');
+// });

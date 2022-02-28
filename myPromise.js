@@ -1,7 +1,7 @@
 /*
  * @Author       : frank
  * @Date         : 2022-02-24 11:11:22
- * @LastEditTime : 2022-02-28 11:07:29
+ * @LastEditTime : 2022-02-28 14:32:38
  * @LastEditors  : frank
  * @Description  : In User Settings Edit
  */
@@ -143,6 +143,24 @@ class myPromise {
       }
     })
     return promise2
+  }
+
+  /**
+   * Promise.prototype.catch()
+   * Promise.prototype.catch()方法是.then(null, rejection)或.then(undefined, rejection)的别名
+   * @param {function} onRejected  rejected状态时 执行的函数
+   */
+  catch(onRejected) {
+    return this.then(undefined, onRejected);
+  }
+
+  /**
+   * Promise.prototype.finally()
+   * Promise.prototype.finally()方法是.then(callback, callback)的别名
+   * @param {function} callback  callBack 无论结果是fulfilled或者是rejected，都会执行的回调函数
+   */
+  finally(callback) {
+    return this.then(callback, callback);
   }
 
   /**
