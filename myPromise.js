@@ -144,6 +144,37 @@ class myPromise {
     })
     return promise2
   }
+
+  /**
+   * Promise.resolve()
+   * @param {[type]} value 要解析为 Promise 对象的值 
+   */
+  static resolve(value) {
+    // 如果这个值是一个 promise ，那么将返回这个 promise
+    if (value instanceof myPromise) {
+      return value
+    } else if (value instanceof Object && 'then' in value) {
+      // 如果这个值是thenable（即带有`"then" `方法），返回的promise会“跟随”这个thenable的对象，采用它的最终状态
+      return new myPromise((resolve, reject) => {
+        value.then(resolve, reject)
+      })
+    } else {
+      return new myPromise((resolve, reject) => {
+        resolve(value)
+      })
+    }
+  }
+
+  /**
+   * myPromise.reject
+   * @param {*} reason 表示Promise被拒绝的原因
+   * @returns 
+   */
+  static reject(value) {
+    return new myPromise((resolve, reject) => {
+      reject(value)
+    })
+  }
 }
 
 /**
@@ -223,33 +254,6 @@ function resolvePromise(promise2, x, resolve, reject) {
   }
 }
 
-/**
- * Promise.resolve()
- * @param {[type]} value 要解析为 Promise 对象的值 
- */
-myPromise.resolve = function (value) {
-  // 如果这个值是一个 promise ，那么将返回这个 promise
-  if (value instanceof myPromise) {
-    return value
-  } else if (value instanceof Object && 'then' in value) {
-    // 如果这个值是thenable（即带有`"then" `方法），返回的promise会“跟随”这个thenable的对象，采用它的最终状态
-    return new myPromise((resolve, reject) => {
-      value.then(resolve, reject)
-    })
-  } else {
-    return new myPromise((resolve, reject) => {
-      resolve(value)
-    })
-  }
-}
-
-
-
-
-
-
-
-
 // promises-aplus-tests 测试用
 myPromise.deferred = function () {
   let result = {};
@@ -261,15 +265,3 @@ myPromise.deferred = function () {
 }
 
 module.exports = myPromise;
-
-// let promise = new myPromise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve(10)
-//   }, 2000)
-// })
-// promise.then(result => {
-//   console.log('fulfilled:------>', result)
-//   return 2 * result
-// }).then(result => {
-//   console.log('fulfilled:------>', result)
-// })
