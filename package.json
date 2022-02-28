@@ -1,0 +1,23 @@
+{
+  "name": "promise",
+  "version": "1.0.0",
+  "description": "Handwritten promise",
+  "main": "myPromise.js",
+  "scripts": {
+    "test": "promises-aplus-tests myPromise"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankYouGithub/promise.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrankYouGithub/promise/issues"
+  },
+  "homepage": "https://github.com/FrankYouGithub/promise#readme",
+  "devDependencies": {
+    "promises-aplus-tests": "^2.1.2"
+  }
+}

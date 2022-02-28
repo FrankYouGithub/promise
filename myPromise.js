@@ -1,7 +1,7 @@
 /*
  * @Author       : frank
  * @Date         : 2022-02-24 11:11:22
- * @LastEditTime : 2022-02-24 17:06:45
+ * @LastEditTime : 2022-02-28 11:07:29
  * @LastEditors  : frank
  * @Description  : In User Settings Edit
  */
@@ -201,7 +201,7 @@ function resolvePromise(promise2, x, resolve, reject) {
           r => {
             if (called) return;
             called = true;
-            resolvePromise(promise2, r, resolve, reject);
+            reject(r)
           })
       } catch (error) {
         /**
@@ -222,6 +222,17 @@ function resolvePromise(promise2, x, resolve, reject) {
     return resolve(x);
   }
 }
+
+myPromise.deferred = function () {
+  let result = {};
+  result.promise = new myPromise((resolve, reject) => {
+    result.resolve = resolve;
+    result.reject = reject;
+  })
+  return result;
+}
+
+module.exports = myPromise;
 
 // let promise = new myPromise((resolve, reject) => {
 //   setTimeout(() => {
