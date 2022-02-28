@@ -240,6 +240,37 @@ class myPromise {
       }
     })
   }
+
+  /**
+   * Promise.allSettled 
+   * @param {*} promises 一个promise的iterable类型（注：Array，Map，Set都属于ES6的iterable类型）的输入
+   * @returns 
+   */
+  static allSettled(promises) {
+    return new myPromise((resolve, reject) => {
+      if (Array.isArray(promises)) {
+        if (promises.length === 0) return resolve(promises)
+        const results = [];
+        let count = 0;
+        promises.forEach((item, index) => {
+          myPromise.resolve(item).then(
+            result => {
+              count++
+              results[index] = { status: 'fulfilled', value: result }
+              count === promises.length && resolve(results)
+            },
+            reason => {
+              count++
+              results[index] = { status: 'rejected', value: reason }
+              count === promises.length && resolve(results)
+            }
+          )
+        })
+      } else {
+        return reject(new TypeError('Argument is not iterable'))
+      }
+    })
+  }
 }
 
 /**
