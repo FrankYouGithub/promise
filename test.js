@@ -1,10 +1,12 @@
 /*
  * @Author       : frank
  * @Date         : 2022-02-28 14:03:56
- * @LastEditTime : 2022-02-28 14:28:35
+ * @LastEditTime : 2022-02-28 19:19:41
  * @LastEditors  : frank
  * @Description  : In User Settings Edit
  */
+const { resolve } = require('path/posix')
+const { reject } = require('./myPromise')
 const myPromise = require('./myPromise')
 
 // const promise1 = myPromise.resolve(123);
@@ -69,4 +71,23 @@ const myPromise = require('./myPromise')
 //   console.log('after a catch the chain is restored');
 // }, function () {
 //   console.log('Not fired due to the catch');
+// });
+
+// const p1 = new myPromise((resolve, reject) => {
+//   resolve(1)
+// }).then(result => {
+//   console.log(result)
+// }).finally(() => {
+//   console.log('finally')
+// })
+
+
+// const promise1 = myPromise.resolve(3);
+// const promise2 = 42;
+// const promise3 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 1000, 'foo');
+// });
+
+// myPromise.all([promise1, promise2, promise3]).then((values) => {
+//   console.log(values);
 // });
