@@ -222,6 +222,34 @@ function resolvePromise(promise2, x, resolve, reject) {
     return resolve(x);
   }
 }
+
+/**
+ * Promise.resolve()
+ * @param {[type]} value 要解析为 Promise 对象的值 
+ */
+myPromise.resolve = function (value) {
+  // 如果这个值是一个 promise ，那么将返回这个 promise
+  if (value instanceof myPromise) {
+    return value
+  } else if (value instanceof Object && 'then' in value) {
+    // 如果这个值是thenable（即带有`"then" `方法），返回的promise会“跟随”这个thenable的对象，采用它的最终状态
+    return new myPromise((resolve, reject) => {
+      value.then(resolve, reject)
+    })
+  } else {
+    return new myPromise((resolve, reject) => {
+      resolve(value)
+    })
+  }
+}
+
+
+
+
+
+
+
+
 // promises-aplus-tests 测试用
 myPromise.deferred = function () {
   let result = {};
