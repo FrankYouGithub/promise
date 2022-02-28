@@ -1,7 +1,7 @@
 /*
  * @Author       : frank
  * @Date         : 2022-02-28 14:03:56
- * @LastEditTime : 2022-02-28 19:19:41
+ * @LastEditTime : 2022-02-28 19:25:19
  * @LastEditors  : frank
  * @Description  : In User Settings Edit
  */
@@ -90,4 +90,26 @@ const myPromise = require('./myPromise')
 
 // myPromise.all([promise1, promise2, promise3]).then((values) => {
 //   console.log(values);
+// });
+
+// var p1 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 1000, 'one');
+// });
+// var p2 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 2000, 'two');
+// });
+// var p3 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 3000, 'three');
+// });
+// var p4 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 4000, 'four');
+// });
+// var p5 = new myPromise((resolve, reject) => {
+//   resolve('reject');
+// });
+
+// myPromise.all([p1, p2, p3, p4, p5]).then(values => {
+//   console.log(values);
+// }, reason => {
+//   console.log(reason)
 // });
