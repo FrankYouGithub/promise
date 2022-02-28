@@ -117,20 +117,69 @@ const myPromise = require('./myPromise')
 
 
 
-const promise1 = myPromise.resolve(3);
-const promise2 = 1;
-const promises = [promise1, promise2];
+// const promise1 = myPromise.resolve(3);
+// const promise2 = 1;
+// const promises = [promise1, promise2];
 
-myPromise.allSettled(promises).
-  then((results) => results.forEach((result) => console.log(result)));
+// myPromise.allSettled(promises).
+//   then((results) => results.forEach((result) => console.log(result)));
 
-setTimeout(() => {
-  const p1 = myPromise.resolve(3);
-  const p2 = new myPromise((resolve, reject) => setTimeout(reject, 100, 'foo'));
-  const ps = [p1, p2];
+// setTimeout(() => {
+//   const p1 = myPromise.resolve(3);
+//   const p2 = new myPromise((resolve, reject) => setTimeout(reject, 100, 'foo'));
+//   const ps = [p1, p2];
 
-  myPromise.allSettled(ps).
-    then((results) => results.forEach((result) => console.log(result)));
-}, 1000);
+//   myPromise.allSettled(ps).
+//     then((results) => results.forEach((result) => console.log(result)));
+// }, 1000);
 
-myPromise.allSettled([]).then((results) => console.log(results))
+// myPromise.allSettled([]).then((results) => console.log(results))
+
+
+
+
+
+
+/**
+ * 验证Promise.any()方法
+ */
+
+// console.log(new AggregateError('All promises were rejected'));
+
+// myPromise.any([]).catch(e => {
+//   console.log(e);
+// });
+
+// const pErr = new Promise((resolve, reject) => {
+//   reject("总是失败");
+// });
+
+// const pSlow = new Promise((resolve, reject) => {
+//   setTimeout(resolve, 500, "最终完成");
+// });
+
+// const pFast = new Promise((resolve, reject) => {
+//   setTimeout(resolve, 100, "很快完成");
+// });
+
+// Promise.any([pErr, pSlow, pFast]).then((value) => {
+//   console.log(value);
+//   // 期望输出: "很快完成"
+// })
+
+
+// const pErr1 = new myPromise((resolve, reject) => {
+//   reject("总是失败");
+// });
+
+// const pErr2 = new myPromise((resolve, reject) => {
+//   reject("总是失败");
+// });
+
+// const pErr3 = new myPromise((resolve, reject) => {
+//   reject("总是失败");
+// });
+
+// myPromise.any([pErr1, pErr2, pErr3]).catch(e => {
+//   console.log(e);
+// })

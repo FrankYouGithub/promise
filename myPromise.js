@@ -248,21 +248,64 @@ class myPromise {
    */
   static allSettled(promises) {
     return new myPromise((resolve, reject) => {
+      // 参数校验
       if (Array.isArray(promises)) {
+        // 如果传入的是一个空数组，那么就直接返回一个resolved的空数组promise对象
         if (promises.length === 0) return resolve(promises)
-        const results = [];
-        let count = 0;
+        const results = []; // 存储结果
+        let count = 0; // 计数器
         promises.forEach((item, index) => {
+          // 非promise值，通过Promise.resolve转换为promise进行统一处理
           myPromise.resolve(item).then(
             result => {
               count++
+              // 对于每个结果对象，都有一个 status 字符串。如果它的值为 fulfilled，则结果对象上存在一个 value 。
               results[index] = { status: 'fulfilled', value: result }
+              // 所有给定的promise都已经fulfilled或rejected后,返回这个promise
               count === promises.length && resolve(results)
             },
             reason => {
               count++
+              // 对于每个结果对象，都有一个 status 字符串。如果值为 rejected，则存在一个 reason 。
               results[index] = { status: 'rejected', value: reason }
+              // 所有给定的promise都已经fulfilled或rejected后,返回这个promise
               count === promises.length && resolve(results)
+            }
+          )
+        })
+      } else {
+        return reject(new TypeError('Argument is not iterable'))
+      }
+    })
+  }
+
+  /**
+   * Promise.any()
+   * @param {iterable} promises 一个promise的iterable类型（注：Array，Map，Set都属于ES6的iterable类型）的输入
+   * @returns 
+   */
+  static any(promises) {
+    return new myPromise((resolve, reject) => {
+      // 参数校验
+      if (Array.isArray(promises)) {
+        // 如果传入的参数是一个空的可迭代对象，则返回一个 已失败（already rejected） 状态的 Promise。
+        if (promises.length === 0) return reject(new AggregateError('All promises were rejected'));
+        const errors = []
+        let count = 0
+        promises.forEach((item, index) => {
+          myPromise.resolve(item).then(
+            result => {
+              // 只要其中的一个 promise 成功，就返回那个已经成功的 promise
+              resolve(result)
+            },
+            reason => {
+              count++
+              errors.push(reason)
+              /**
+               * 如果可迭代对象中没有一个 promise 成功，就返回一个失败的 promise 和AggregateError类型的实例，
+               * AggregateError是 Error 的一个子类，用于把单一的错误集合在一起。
+               */
+              count === promises.length && reject(new AggregateError(errors));
             }
           )
         })
