@@ -222,7 +222,7 @@ function resolvePromise(promise2, x, resolve, reject) {
     return resolve(x);
   }
 }
-
+// promises-aplus-tests 测试用
 myPromise.deferred = function () {
   let result = {};
   result.promise = new myPromise((resolve, reject) => {
