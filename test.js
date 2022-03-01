@@ -1,14 +1,16 @@
 /*
  * @Author       : frank
  * @Date         : 2022-02-28 14:03:56
- * @LastEditTime : 2022-02-28 19:25:19
+ * @LastEditTime : 2022-03-01 15:07:09
  * @LastEditors  : frank
  * @Description  : In User Settings Edit
  */
 const myPromise = require('./myPromise')
 
+/**
+ * 验证Promise.resolve()方法
+ */
 // const promise1 = myPromise.resolve(123);
-
 // promise1.then((value) => {
 //   console.log(value);
 //   // expected output: 123
@@ -49,6 +51,12 @@ const myPromise = require('./myPromise')
 // });
 
 
+
+
+
+/**
+ * 验证Promise.reject()方法
+ */
 // myPromise.reject(new Error('fail')).then(function () {
 //   // not called
 // }, function (error) {
@@ -56,6 +64,11 @@ const myPromise = require('./myPromise')
 // });
 
 
+
+
+/**
+ * 验证Promise.prototype.catch()方法
+ */
 // var p1 = new myPromise(function (resolve, reject) {
 //   resolve('Success');
 // });
@@ -71,6 +84,14 @@ const myPromise = require('./myPromise')
 //   console.log('Not fired due to the catch');
 // });
 
+
+
+
+
+
+/**
+ * 验证Promise.prototype.finally()方法
+ */
 // const p1 = new myPromise((resolve, reject) => {
 //   resolve(1)
 // }).then(result => {
@@ -80,6 +101,11 @@ const myPromise = require('./myPromise')
 // })
 
 
+
+
+/**
+ * 验证Promise.all()方法
+ */
 // const promise1 = myPromise.resolve(3);
 // const promise2 = 42;
 // const promise3 = new myPromise((resolve, reject) => {
@@ -103,7 +129,7 @@ const myPromise = require('./myPromise')
 //   setTimeout(resolve, 4000, 'four');
 // });
 // var p5 = new myPromise((resolve, reject) => {
-//   resolve('reject');
+//   reject('reject');
 // });
 
 // myPromise.all([p1, p2, p3, p4, p5]).then(values => {
@@ -116,7 +142,9 @@ const myPromise = require('./myPromise')
 
 
 
-
+/**
+ * 验证Promise.allSettled()方法
+ */
 // const promise1 = myPromise.resolve(3);
 // const promise2 = 1;
 // const promises = [promise1, promise2];
@@ -143,8 +171,6 @@ const myPromise = require('./myPromise')
 /**
  * 验证Promise.any()方法
  */
-
-// console.log(new AggregateError('All promises were rejected'));
 
 // myPromise.any([]).catch(e => {
 //   console.log(e);
@@ -192,53 +218,56 @@ const myPromise = require('./myPromise')
  * 验证Promise.race()方法
  */
 
-// 数组全是非Promise值，测试通过
-let p1 = myPromise.race([1, 3, 4]);
-setTimeout(() => {
-  console.log('p1 :>> ', p1);
-});
+// // 数组全是非Promise值，测试通过
+// let p1 = myPromise.race([1, 3, 4]);
+// setTimeout(() => {
+//   console.log('p1 :>> ', p1);
+// });
+
 
 // 空数组，测试通过
-let p2 = myPromise.race([]);
-setTimeout(() => {
-  console.log('p2 :>> ', p2);
-});
+// let p2 = myPromise.race([]);
+// setTimeout(() => {
+//   console.log('p2 :>> ', p2);
+// });
 
-const p11 = new myPromise((resolve, reject) => {
-  setTimeout(resolve, 500, 'one');
-});
-
-const p22 = new myPromise((resolve, reject) => {
-  setTimeout(resolve, 100, 'two');
-});
 
 // // 数组里有非Promise值，测试通过
-myPromise.race([p11, p22, 10]).then((value) => {
-  console.log('p3 :>> ', value);
-  // Both resolve, but p22 is faster
-});
-// expected output: 10
+// const p11 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 500, 'one');
+// });
 
-// 数组里有'已解决的Promise' 和 非Promise值 测试通过
-let p12 = myPromise.resolve('已解决的Promise')
-setTimeout(() => {
-  myPromise.race([p12, p22, 10]).then((value) => {
-    console.log('p4 :>> ', value);
-  });
-  // expected output:已解决的Promise
-});
+// const p22 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 100, 'two');
+// });
 
-// Promise.race的一般情况 测试通过
-const p13 = new myPromise((resolve, reject) => {
-  setTimeout(resolve, 500, 'one');
-});
+// myPromise.race([p11, p22, 10]).then((value) => {
+//   console.log('p3 :>> ', value);
+//   // Both resolve, but p22 is faster
+// });
+// // expected output: 10
 
-const p14 = new myPromise((resolve, reject) => {
-  setTimeout(resolve, 100, 'two');
-});
 
-myPromise.race([p13, p14]).then((value) => {
-  console.log('p5 :>> ', value);
-  // Both resolve, but promise2 is faster
-});
-// expected output: "two"
+// // 数组里有'已解决的Promise' 和 非Promise值 测试通过
+// let p12 = myPromise.resolve('已解决的Promise')
+// setTimeout(() => {
+//   let p = myPromise.race([p12, p22, 10]).then((value) => {
+//     console.log('p4 :>> ', value);
+//   });
+//   // expected output:已解决的Promise
+// });
+
+// // Promise.race的一般情况 测试通过
+// const p13 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 500, 'one');
+// });
+
+// const p14 = new myPromise((resolve, reject) => {
+//   setTimeout(resolve, 100, 'two');
+// });
+
+// myPromise.race([p13, p14]).then((value) => {
+//   console.log('p5 :>> ', value);
+//   // Both resolve, but promise2 is faster
+// });
+// // expected output: "two"
