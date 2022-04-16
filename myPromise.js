@@ -1,7 +1,7 @@
 /*
  * @Author       : frank
  * @Date         : 2022-02-24 11:11:22
- * @LastEditTime : 2022-03-01 14:34:34
+ * @LastEditTime : 2022-04-16 14:05:09
  * @LastEditors  : frank
  * @Description  : In User Settings Edit
  */
@@ -328,6 +328,50 @@ class myPromise {
         })
       } else {
         return reject(new TypeError('Argument is not iterable'))
+      }
+    })
+  }
+  /**
+   * @description: Promise.first实现
+   * @param {array} list - promise组成的数组
+   * @return Promise - list中第一个resolve的promise或者全被reject后返回
+   */
+  static first(promises) {
+    return new myPromise((resolve, reject) => {
+      if (Array.isArray(promises)) {
+        let count = 0;
+        promises.forEach(item => {
+          myPromise.resolve(item).then(resolve, () => {
+            ++count === promises.length && reject('all reject')
+          })
+        })
+      } else {
+        return reject(new TypeError('Argument is not iterable'))
+      }
+    })
+  }
+  /**
+   * @description: Promise.last方法实现
+   * @param {array} list - promise组成的数组
+   * @return Promise - 最后一个resolve的promise，如果执行完result还是null的话就返回reject
+   */
+  static last(promises) {
+    return new myPromise((resolve, reject) => {
+      if (Array.isArray(promises)) {
+        let count = 0;
+        let result = null;
+        promises.forEach(item => {
+          myPromise.resolve(item).then(res => {
+            count++;
+            result = res;
+            count === promises.length && resolve(result)
+          }, err => {
+            count++;
+            count === promises.length ? result === null ? reject('all promise reject') : resolve(result) : null;
+          })
+        })
+      } else {
+        return reject('Argument is no iterable')
       }
     })
   }
